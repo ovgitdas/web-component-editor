@@ -161,3 +161,25 @@ export function copyNodeInTree(
     children: newChildren,
   }))
 }
+
+export function deleteNodeInTree(
+  tree: WebComponent,
+  elementId: string
+): WebComponent | null {
+  if (elementId === tree.id) {
+    // Cannot delete the root node
+    return tree
+  }
+
+  const parent = findParentById(tree, elementId)
+  if (!parent) {
+    return tree
+  }
+
+  const newChildren = parent.children.filter((child) => child.id !== elementId)
+
+  return updateNodeInTree(tree, parent.id, (node) => ({
+    ...node,
+    children: newChildren,
+  }))
+}

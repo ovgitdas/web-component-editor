@@ -8,7 +8,7 @@ import {
 } from "./ui/Accordion"
 import { Input } from "./ui/Input"
 import { Label } from "./ui/Label"
-import { CopyIcon, UnwrapIcon, WrapIcon } from "./ui/Icons"
+import { CopyIcon, TrashIcon, UnwrapIcon, WrapIcon } from "./ui/Icons"
 import { Button } from "./ui/Button"
 import ColorPicker from "./ColorPicker"
 
@@ -22,6 +22,7 @@ interface RightPanelProps {
   onWrap: (elementId: string, newTag: string) => void
   onUnwrap: (elementId: string) => void
   onCopy: (elementId: string) => void
+  onDelete: (elementId: string) => void
 }
 
 const cssGroups = {
@@ -67,6 +68,7 @@ export default function RightPanel({
   onWrap,
   onUnwrap,
   onCopy,
+  onDelete,
 }: RightPanelProps) {
   const handleInputChange = (
     prop: keyof React.CSSProperties,
@@ -101,6 +103,13 @@ export default function RightPanel({
       onCopy(selectedNode.id)
     }
   }
+
+  const handleDeleteClick = () => {
+    if (selectedNode) {
+      onDelete(selectedNode.id)
+    }
+  }
+  const isRoot = !!selectedNode && selectedNode.id === "root"
 
   if (!selectedNode) {
     return (
@@ -141,6 +150,15 @@ export default function RightPanel({
           className="w-full"
         >
           <CopyIcon className="w-4 h-4 mr-2" /> Copy
+        </Button>
+        <Button
+          onClick={handleDeleteClick}
+          variant="destructive"
+          size="sm"
+          className="w-full"
+          disabled={isRoot}
+        >
+          <TrashIcon className="w-4 h-4 mr-2" /> Delete
         </Button>
       </div>
 

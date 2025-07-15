@@ -11,6 +11,7 @@ import {
   wrapNodeInTree,
   unwrapNodeInTree,
   copyNodeInTree,
+  deleteNodeInTree,
 } from "../lib/utils"
 
 // Initial state for the web component
@@ -156,6 +157,14 @@ export default function Home() {
     }
   }
 
+  const handleDeleteElement = (elementId: string) => {
+    const newTree = deleteNodeInTree(componentTree, elementId)
+    if (newTree) {
+      setComponentTree(newTree)
+      setSelectedElementId(null)
+    }
+  }
+
   return (
     <main className="flex h-screen bg-gray-900 text-white">
       <LeftPanel
@@ -175,6 +184,7 @@ export default function Home() {
         onWrap={handleWrapElement}
         onUnwrap={handleUnwrapElement}
         onCopy={handleCopyElement}
+        onDelete={handleDeleteElement}
       />
     </main>
   )
